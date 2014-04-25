@@ -2,6 +2,12 @@
 
 This is a submission for the OpenEdX interview, part 2.
 
+### How to Run ###
+
+To run, simply drop all three of the files into the same directory of a webserver and then direct a browser to that URL.
+
+### About ###
+
 Worldmap Display is a program designed to process information into a more human readable format. This program can intake JSON, parse it dynamically, and display the information appropriately on an interactive world map. It is written in Javascript with D3 and TopoJson.
 
 Until this project, I had never used the D3.js or TopoJson tools, and I learned a lot. Here are some key highlights:
