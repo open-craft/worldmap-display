@@ -5,54 +5,20 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <title>WorldMap - Display statistics on a map</title>
-
-		<style>
-
-			p {
-				font-family: sans-serif;
-			}
-			.country {
-			  fill: #ccc;
-			  stroke: #fff;
-			  stroke-width: .5px;
-			}
-
-			.graticule {
-			  fill: none;
-			  stroke-opacity: .3;
-			  stroke-width: .5px;
-			}
-
-			path:hover {
-				fill: red;
-			}
-
-			div.tooltip {   
-			  position: absolute;           
-			  text-align: center;  
-			  width: 350px;                  
-			  height: 80px;                 
-			  padding: 2px;
-			  font: 12px sans-serif;        
-			  background: black; /* lightsteelblue */
-			  color: white;
-			  border: 0px;      
-			  border-radius: 8px;           
-			  pointer-events: none;         
-			}
-
-		</style>
+		<link href="stylesheet.css" rel="stylesheet">
 	</head>
 	<body>
-		<p>The only current countries with JSON data are: United States, Canada, Mexico, France, and Greenland,</br>but the JSON data is loaded dynamically, so feel free to add more countries to the JSON query in map.js on Line 32 test it out.</p>
+		<p>The only current countries with JSON data are: United States, Canada, Mexico, France, and Greenland,</br>but the JSON data is loaded dynamically, so feel free to add more countries to the JSON query in map.js on Line 31 test it out.</p>
 		<br/>
 		<select id="selector" name="selector" onchange="selection(this.value);"></select>
-		<br/>
+		<h2 id="title"></h2>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
 		<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
 		<script src="http://d3js.org/topojson.v1.min.js"></script>
 		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script src="map.js"></script>
+
+		<h2>Hello world</h2>
 	</body>
 </html>
