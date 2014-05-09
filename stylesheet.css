@@ -1,5 +1,5 @@
 p {
-	font-family: sans-serif;
+  font-family: sans-serif;
 }
 .country {
   fill: #bdc3c7; /* #ccc */
@@ -14,7 +14,7 @@ p {
 }
 
 path:hover {
-	fill: red;
+  fill: red;
 }
 
 div.tooltip {   
@@ -32,11 +32,11 @@ div.tooltip {
 }
 
 h4 {
-    line-height: 0;
+  line-height: 0;
 }
 .countryDetail {
-	font-size: 13px;
+  font-size: 13px;
 }
 .countryAverage {
-	font-size: 10px;
+  font-size: 10px;
 }
