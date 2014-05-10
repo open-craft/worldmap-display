@@ -21,7 +21,7 @@ var divTooltip = d3.select("body").append("div")
 
 var color = d3.scale.threshold()
     .domain([0, 1]) // TODO: Include more thresholds if needed
-.range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"]);
+    .range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"]);
 
 var rankColor = d3.scale.threshold()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
@@ -60,7 +60,7 @@ Array.prototype.filter = function(fun, scope) {
         }
     }
     return A;
-}
+};
 
 // Dynamically add dropdown options from JSON object
 $(function() {
@@ -117,11 +117,11 @@ function selection(choice) {
     document.getElementById("title").innerHTML = json.statistics[choice].title;
 
     /* Code to update text displayed directly on map, if needed
-  svg.selectAll("text")
-      .attr("class", "title")
-      .style("text-anchor", "left")
-      .text(function(d) { return json.statistics[choice].title; });
-  */
+    svg.selectAll("text")
+        .attr("class", "title")
+        .style("text-anchor", "left")
+        .text(function(d) { return json.statistics[choice].title; });
+    */
 
     svg.selectAll(".country")
         .data(countries)
@@ -149,39 +149,49 @@ function selection(choice) {
         });
 }
 
-function mouseover(country) {
+function mouseover() {
     divTooltip.transition()
         .duration(500)
         .style("opacity", 0.75);
 }
 
-function mousemove(country, detail, overall) {
-    var detailString;
-    if (!detail) {
-        detailString = "Specific country information unavailable";
-    } else {
-        detailString = country + " is: " + detail;
-    }
+function mousemove(d) {
+    if (d.properties.name) {
+        var type = json.statistics[choiceElement].type;
+        var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
+        var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value
+        var overall;
+        if (type == "mrq" || type == "slider") {
+            overall = json.statistics[choiceElement].average;
+        } else if (type == "rank") {
+            overall = json.statistics[choiceElement].preferred;
+        }
 
-    var overallString;
-    if (!overall) {
-        overallString = "Overall information unavailable";
-    } else {
-        overallString = "The average is: " + overall;
-    }
+        var detailString;
+        if (!countryValue) {
+            detailString = "Specific country information unavailable";
+        } else {
+            detailString = d.properties.name + " is: " + countryValue;
+        }
 
-    divTooltip
-    // Display detailed hover info
-    .html("<h3>" + country + "</h3><h4 class='countryDetail'>" + detailString + "</h4><h4 class='countryAverage'>" + overallString + "</h4>")
-        .style("left", (d3.event.pageX + 20) + "px")
-        .style("top", (d3.event.pageY - 40) + "px");
+        var overallString;
+        if (!overall) {
+            overallString = "Overall information unavailable";
+        } else {
+            overallString = "The average is: " + overall;
+        }
+
+        divTooltip
+        // Display detailed hover info
+            .html("<h3>" + d.properties.name + "</h3><h4 class='countryDetail'>" + detailString + "</h4><h4 class='countryAverage'>" + overallString + "</h4>")
+            .style("left", (d3.event.pageX + 20) + "px")
+            .style("top", (d3.event.pageY - 40) + "px");
+    }
 }
 
 function mouseout() {
     divTooltip.transition()
-        .duration(20)
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 40) + "px")
+        .duration(200)
         .style("opacity", 0);
 }
 
@@ -194,37 +204,9 @@ d3.json("world.json", function(error, world) {
         .enter().insert("path")
         .attr("class", "country")
         .attr("d", path)
-        .style("fill", function(d) {
-            if (d.properties.name) // Ignore undefined
-            {
-                var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-                var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value from JSON object
-                if (countryValue) {
-                    return color(countryValue); // Return corresponding color depending on country value
-                }
-            }
-
-            // Default to gray
-            return "#bdc3c7";
-        })
         .on("mouseover", mouseover)
-        .on("mousemove", function(d) {
-
-            if (d.properties.name) {
-                var type = json.statistics[choiceElement].type;
-                var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-                var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value
-                if (type == "mrq" || type == "slider") {
-                    // Pass hover information for mrq and slider types
-                    mousemove(d.properties.name, countryValue, json.statistics[choiceElement].average);
-                } else if (type == "rank") {
-                    // Pass hover information for rank type
-                    mousemove(d.properties.name, countryValue, json.statistics[choiceElement].preferred);
-                } else // Default catch for unexpected type
-                {
-                    mousemove(d.properties.name, " ");
-                }
-            }
-        })
+        .on("mousemove", mousemove)
         .on("mouseout", mouseout);
+
+    selection(choiceElement);
 });
