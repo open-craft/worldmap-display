@@ -21,7 +21,7 @@ var divTooltip = d3.select("body").append("div")
 
 var color = d3.scale.threshold()
     .domain([0, 1]) // TODO: Include more thresholds if needed
-    .range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"]);
+.range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"]);
 
 var rankColor = d3.scale.threshold()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
@@ -35,207 +35,196 @@ var json = JSON.parse(jsonString);
 
 /* Code to display text directly on map, if needed
 svg.append("text")
-      .attr("transform", "translate(" + 20 + "," + 350 + ")")
-      .style("text-anchor", "left")
-      .text(function(d) { return json.statistics[0].title; });
+    .attr("transform", "translate(" + 20 + "," + 350 + ")")
+    .style("text-anchor", "left")
+    .text(function(d) { return json.statistics[0].title; });
 */
 
 // Used for rank color options
 var rankObj = {};
 
 // Get unique array elements while still supporting IE8 and later
-Array.prototype.filter= function(fun, scope){
+Array.prototype.filter = function(fun, scope) {
     var T = this;
     var A = [];
     var i = 0;
     var itm;
     var L = T.length;
-    if(typeof fun == 'function'){
-        while(i < L){
-            if(i in T){
+    if (typeof fun == 'function') {
+        while (i < L) {
+            if (i in T) {
                 itm = T[i];
-                if(fun.call(scope, itm, i, T)) A[A.length]= itm;
+                if (fun.call(scope, itm, i, T)) A[A.length] = itm;
             }
             ++i;
         }
     }
     return A;
-  }
+}
 
 // Dynamically add dropdown options from JSON object
 $(function() {
-  document.getElementById("title").innerHTML = json.statistics[0].title;
-	for (var element in json.statistics)
-	{
-		$("#selector").append('<option value="' + element + '">' + json.statistics[element].title + '</option>');
-	}	
+    document.getElementById("title").innerHTML = json.statistics[0].title;
+    for (var element in json.statistics) {
+        if ($.isNumeric(element)) {
+            $("#selector").append('<option value="' + element + '">' + json.statistics[element].title + '</option>');
+        }
+    }
 });
 
 // Set color threshold min and max
-function setMinMaxThreshold(min, max) {
-  var thresholdArray = [];
-  thresholdArray.push(min);
-  var thresholdStep = (max - min)/4;
-  for (var i = 0; i <= 4; i++)
-  {
-    thresholdArray.push(thresholdArray[thresholdArray.length - 1] + thresholdStep);
-  }
 
-  color = d3.scale.threshold()
-    .domain(thresholdArray)
-    .range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837", "#00341b"]);
+function setMinMaxThreshold(min, max) {
+    var thresholdArray = [];
+    thresholdArray.push(min);
+    var thresholdStep = (max - min) / 4;
+    for (var i = 0; i <= 4; i++) {
+        thresholdArray.push(thresholdArray[thresholdArray.length - 1] + thresholdStep);
+    }
+
+    color = d3.scale.threshold()
+        .domain(thresholdArray)
+        .range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837", "#00341b"]);
 }
 
 function updateColorThreshold(index) {
-  if(json.statistics[index].min && json.statistics[index].max) {
-    setMinMaxThreshold(json.statistics[index].min, json.statistics[index].max);
-  } else {
-    var countryValueArray = [];
-    for (var countryValue in json.statistics[index].countries)
-    {
-        countryValueArray.push(json.statistics[index].countries[countryValue]);
-    }  
+    if (json.statistics[index].min && json.statistics[index].max) {
+        setMinMaxThreshold(json.statistics[index].min, json.statistics[index].max);
+    } else {
+        var countryValueArray = [];
+        for (var countryValue in json.statistics[index].countries) {
+            countryValueArray.push(json.statistics[index].countries[countryValue]);
+        }
 
-    setMinMaxThreshold(Math.min.apply(null, countryValueArray), Math.max.apply(null, countryValueArray));
-  }
+        setMinMaxThreshold(Math.min.apply(null, countryValueArray), Math.max.apply(null, countryValueArray));
+    }
 }
 
 // Set color threshold upon load
 updateColorThreshold(0);
 
 // Logic for dropdown on selection
+
 function selection(choice) {
-	choiceElement = choice; // Set global var for use in the D3.js main function
+    choiceElement = choice; // Set global var for use in the D3.js main function
 
-  // Update color threshold on change
-  updateColorThreshold(choice);
+    // Update color threshold on change
+    updateColorThreshold(choice);
 
-	var type = json.statistics[choice].type; // Used to store type (slider, rank, etc.)
+    var type = json.statistics[choice].type; // Used to store type (slider, rank, etc.)
 
-  // Update selection title
-  document.getElementById("title").innerHTML = json.statistics[choice].title;
+    // Update selection title
+    document.getElementById("title").innerHTML = json.statistics[choice].title;
 
-  /* Code to update text displayed directly on map, if needed
+    /* Code to update text displayed directly on map, if needed
   svg.selectAll("text")
       .attr("class", "title")
       .style("text-anchor", "left")
       .text(function(d) { return json.statistics[choice].title; });
   */
 
-	svg.selectAll(".country")
-      .data(countries)
-      .style("fill", function(d) { 
-      		if (d.properties.name) // Ignore undefined
-      		{
-      			var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-      			var countryValue = json.statistics[choice].countries[countryNameNoSpace.toLowerCase()]; // Get country value from JSON
-      			if (countryValue && type != "rank")
-      			{
-      				return color(countryValue); // Return corresponding color depending on country value
-      			}
-      		  if (type == "rank")
+    svg.selectAll(".country")
+        .data(countries)
+        .style("fill", function(d) {
+            if (d.properties.name) // Ignore undefined
             {
-              // If specific answer hasn't been found yet
-              if (!rankObj[countryValue])
-              {
-                // Set new specific color for answer
-                rankObj[countryValue] = rankColor(Object.keys(rankObj).length - 1); 
-              }
+                var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
+                var countryValue = json.statistics[choice].countries[countryNameNoSpace.toLowerCase()]; // Get country value from JSON
+                if (countryValue && type != "rank") {
+                    return color(countryValue); // Return corresponding color depending on country value
+                }
+                if (type == "rank") {
+                    // If specific answer hasn't been found yet
+                    if (!rankObj[countryValue]) {
+                        // Set new specific color for answer
+                        rankObj[countryValue] = rankColor(Object.keys(rankObj).length - 1);
+                    }
 
-              return rankObj[countryValue];
+                    return rankObj[countryValue];
+                }
             }
-          }
-      		
-          // Default to gray
-          return "#bdc3c7"; 
-      });
+
+            // Default to gray
+            return "#bdc3c7";
+        });
 }
 
 function mouseover(country) {
-  	divTooltip.transition()
-      .duration(500)
-      .style("opacity", 0.75);
+    divTooltip.transition()
+        .duration(500)
+        .style("opacity", 0.75);
 }
 
 function mousemove(country, detail, overall) {
     var detailString;
     if (!detail) {
-      detailString = "Specific country information unavailable";
-    }
-    else {
-      detailString = country + " is: " + detail;
+        detailString = "Specific country information unavailable";
+    } else {
+        detailString = country + " is: " + detail;
     }
 
     var overallString;
     if (!overall) {
-      overallString = "Overall information unavailable";
-    }
-    else {
-      overallString = "The average is: " + overall;
+        overallString = "Overall information unavailable";
+    } else {
+        overallString = "The average is: " + overall;
     }
 
-  	divTooltip
-      // Display detailed hover info
-      .html("<h3>" + country + "</h3><h4 class='countryDetail'>" + detailString + "</h4><h4 class='countryAverage'>" + overallString + "</h4>")
-      .style("left", (d3.event.pageX + 20) + "px")
-      .style("top", (d3.event.pageY - 40) + "px");
+    divTooltip
+    // Display detailed hover info
+    .html("<h3>" + country + "</h3><h4 class='countryDetail'>" + detailString + "</h4><h4 class='countryAverage'>" + overallString + "</h4>")
+        .style("left", (d3.event.pageX + 20) + "px")
+        .style("top", (d3.event.pageY - 40) + "px");
 }
 
 function mouseout() {
-  	divTooltip.transition()
-      .duration(20)
-      .style("left", (d3.event.pageX) + "px")
-      .style("top", (d3.event.pageY - 40) + "px")
-      .style("opacity", 0);
+    divTooltip.transition()
+        .duration(20)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 40) + "px")
+        .style("opacity", 0);
 }
 
 // Main D3.js function
 d3.json("world.json", function(error, world) {
-  countries = topojson.feature(world, world.objects.countries).features; // Load TopoJSON object
+    countries = topojson.feature(world, world.objects.countries).features; // Load TopoJSON object
 
-  svg.selectAll(".country")
-      .data(countries)
-    .enter().insert("path")
-      .attr("class", "country")
-      .attr("d", path)
-      .style("fill", function(d) { 
-      	if (d.properties.name) // Ignore undefined
-      		{
-      			var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-      			var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value from JSON object
-      			if (countryValue)
-      			{
-      				return color(countryValue); // Return corresponding color depending on country value
-      			}
-      		}
-      		
-          // Default to gray
-          return "#bdc3c7"; 
-      })
-      .on("mouseover", mouseover)
-      .on("mousemove", function(d) { 
+    svg.selectAll(".country")
+        .data(countries)
+        .enter().insert("path")
+        .attr("class", "country")
+        .attr("d", path)
+        .style("fill", function(d) {
+            if (d.properties.name) // Ignore undefined
+            {
+                var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
+                var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value from JSON object
+                if (countryValue) {
+                    return color(countryValue); // Return corresponding color depending on country value
+                }
+            }
 
-        if (d.properties.name)
-        {
-        	var type = json.statistics[choiceElement].type;
-        	var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-        	var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value
-        	if (type == "mrq" || type == "slider")
-        	{
-        		// Pass hover information for mrq and slider types
-        		mousemove(d.properties.name, countryValue, json.statistics[choiceElement].average); 
-        	}
-        	else if(type == "rank")
-        	{
-        		// Pass hover information for rank type
-        		mousemove(d.properties.name, countryValue, json.statistics[choiceElement].preferred); 
-        	}
-        	else // Default catch for unexpected type
-        	{
-        		mousemove(d.properties.name, " ");
-        	}
-        }
-      })
-      .on("mouseout", mouseout);
+            // Default to gray
+            return "#bdc3c7";
+        })
+        .on("mouseover", mouseover)
+        .on("mousemove", function(d) {
+
+            if (d.properties.name) {
+                var type = json.statistics[choiceElement].type;
+                var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
+                var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value
+                if (type == "mrq" || type == "slider") {
+                    // Pass hover information for mrq and slider types
+                    mousemove(d.properties.name, countryValue, json.statistics[choiceElement].average);
+                } else if (type == "rank") {
+                    // Pass hover information for rank type
+                    mousemove(d.properties.name, countryValue, json.statistics[choiceElement].preferred);
+                } else // Default catch for unexpected type
+                {
+                    mousemove(d.properties.name, " ");
+                }
+            }
+        })
+        .on("mouseout", mouseout);
 });
-
