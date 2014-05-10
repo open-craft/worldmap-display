@@ -31,11 +31,8 @@ var rankColor = d3.scale.threshold()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     .range(["#bdc3c7", "#2ecc71", "#3498db", "#9b59b6", "#e74c3c", "#e67e22", "#f1c40f", "#c0392b", "#2980b9", "#27ae60", "#f39c12", "#d35400"]);
 
-// Temporary stand in. To be replaced by preferred JSON receiving method (website, file, etc.)
-var jsonString = '{"survey_qualtrics_id":"SV_123456789","statistics":[{"type":"mrq","title":"Types of health centers","average":3.746,"min":3.11,"max":5.41,"countries":{"unitedstates":4.86,"france":5.12, "canada":3.11, "mexico":4.21, "greenland":5.41}},{"type":"slider","title":"Number of hospitals within 10km","average":3.746,"countries":{"unitedstates":4.86,"france":5.12, "canada":3.11, "mexico":4.21, "greenland":5.43}},{"type":"rank","title":"Care provided","preferred":"At the hospital","countries":{"unitedstates":"Local doctor","france":"At the hospital", "canada":"At the hospital", "mexico":"Local doctor", "greenland":"At the hospital"}}]}';
-
 // Create JSON object
-var json = JSON.parse(jsonString);
+var json = JSON.parse(AtlasJSONData);
 
 /* Code to display text directly on map, if needed
 svg.append("text")
@@ -129,9 +126,8 @@ function selection(choice) {
         .style("fill", function(d) {
             if (d.properties.name) // Ignore undefined
             {
-                var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-                var countryValue = json.statistics[choice].countries[countryNameNoSpace.toLowerCase()]; // Get country value from JSON
-                if (countryValue && type != "rank") {
+                var countryValue = json.statistics[choice].countries[d.properties.name]; // Get country value from JSON
+                if (countryValue !== undefined && type != "rank") {
                     return color(countryValue); // Return corresponding color depending on country value
                 }
                 if (type == "rank") {
@@ -159,8 +155,7 @@ function mouseover() {
 function mousemove(d) {
     if (d.properties.name) {
         var type = json.statistics[choiceElement].type;
-        var countryNameNoSpace = d.properties.name.replace(/\s+/g, ""); // Remove spaces
-        var countryValue = json.statistics[choiceElement].countries[countryNameNoSpace.toLowerCase()]; // Pull unique country value
+        var countryValue = json.statistics[choiceElement].countries[d.properties.name]; // Pull unique country value
         var overall;
         if (type == "mrq" || type == "slider") {
             overall = json.statistics[choiceElement].average;
@@ -169,18 +164,13 @@ function mousemove(d) {
         }
 
         var detailString;
-        if (!countryValue) {
+        if (countryValue === undefined) {
             detailString = "Specific country information unavailable";
         } else {
             detailString = d.properties.name + " is: " + countryValue;
         }
 
-        var overallString;
-        if (!overall) {
-            overallString = "Overall information unavailable";
-        } else {
-            overallString = "The average is: " + overall;
-        }
+        var overallString = "The average is: " + overall;
 
         divTooltip
         // Display detailed hover info
