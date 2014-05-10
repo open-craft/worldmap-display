@@ -1,4 +1,4 @@
-/* map.js */
+(function(element) {
 
 var width = 1000,
     height = 485;
@@ -11,11 +11,15 @@ var projection = d3.geo.equirectangular();
 var path = d3.geo.path()
     .projection(projection);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select(element)
+    .selectAll(".worldmap-map")
+    .append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var divTooltip = d3.select("body").append("div")
+var divTooltip = d3.select(element)
+    .selectAll(".worldmap-map")
+    .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -63,14 +67,11 @@ Array.prototype.filter = function(fun, scope) {
 };
 
 // Dynamically add dropdown options from JSON object
-$(function() {
-    document.getElementById("title").innerHTML = json.statistics[0].title;
-    for (var element in json.statistics) {
-        if ($.isNumeric(element)) {
-            $("#selector").append('<option value="' + element + '">' + json.statistics[element].title + '</option>');
-        }
+for (var s in json.statistics) {
+    if ($.isNumeric(s)) {
+        $(".worldmap-selector", element).append('<option value="' + s + '">' + json.statistics[s].title + '</option>');
     }
-});
+}
 
 // Set color threshold min and max
 
@@ -114,7 +115,7 @@ function selection(choice) {
     var type = json.statistics[choice].type; // Used to store type (slider, rank, etc.)
 
     // Update selection title
-    document.getElementById("title").innerHTML = json.statistics[choice].title;
+    $('.worldmap-title', element).text(json.statistics[choice].title);
 
     /* Code to update text displayed directly on map, if needed
     svg.selectAll("text")
@@ -210,3 +211,9 @@ d3.json("world.json", function(error, world) {
 
     selection(choiceElement);
 });
+
+$('.worldmap-selector', element).change(function() {
+    selection(this.value);
+});
+
+})($('.worldmap-display')[0]);

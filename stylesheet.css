@@ -1,24 +1,24 @@
-h2 {
+.worldmap-display h2 {
     font-family: sans-serif;
 }
-p {
+.worldmap-display p {
     font-family: sans-serif;
 }
-.country {
+.worldmap-display .country {
     fill: #bdc3c7;
     /* #ccc */
     stroke: #fff;
     stroke-width: .5px;
 }
-.graticule {
+.worldmap-display .graticule {
     fill: none;
     stroke-opacity: .3;
     stroke-width: .5px;
 }
-path:hover {
+.worldmap-display path:hover {
     fill: red;
 }
-div.tooltip {
+.worldmap-display div.tooltip {
     position: absolute;
     text-align: center;
     width: 350px;
@@ -32,19 +32,19 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
 }
-h4 {
+.worldmap-display h4 {
     line-height: 0;
 }
-.countryDetail {
+.worldmap-display .countryDetail {
     font-size: 13px;
 }
-.countryAverage {
+.worldmap-display .countryAverage {
     font-size: 10px;
 }
-select:focus {
+.worldmap-display select:focus {
     outline: none;
 }
-.dropdown {
+.worldmap-display .worldmap-dropdown {
     border: medium none;
     border-radius: 4px;
     font-size: 15px;
@@ -57,7 +57,6 @@ select:focus {
     -ms-user-select: none;
     user-select: none;
     background-image: none;
-    display: inline-block;
     margin-bottom: 0;
     text-align: center;
     vertical-align: middle;
@@ -65,12 +64,10 @@ select:focus {
     background-color: #428BCA;
     border-color: #357EBD;
     color: #FFFFFF;
-}
-.themed-dropdown {
     position: relative;
     display: inline-block;
 }
-.themed-dropdown select {
+.worldmap-display .worldmap-dropdown select {
     background: transparent;
     padding: 5px;
     font-size: 16px;
@@ -86,7 +83,7 @@ select:focus {
     color: #ffffff;
     cursor: pointer;
 }
-.themed-dropdown:after {
+.worldmap-display .worldmap-dropdown:after {
     content:"▼";
     position: absolute;
     top: 12px;
@@ -97,7 +94,7 @@ select:focus {
     pointer-events: none;
     cursor: pointer;
 }
-.dropdownButton:after {
+.worldmap-display .dropdownButton:after {
     background: none repeat scroll 0 0 #BBBBBB;
     color: #FFFFFF;
     content:"▼";

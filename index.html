@@ -11,19 +11,22 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
+
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
 <body>
-    <div class="themed-dropdown dropdown">
-        <select id="selector" name="selector" onchange="selection(this.value);"></select>
+    <div class="worldmap-display">
+        <div class="worldmap-dropdown">
+            <select class="worldmap-selector"></select>
+        </div>
+
+        <h2 class="worldmap-title"></h2>
+
+        <div class="worldmap-map"></div>
     </div>
 
-    <h2 id="title"></h2>
-
-    <div id="atlas-map">
-        <script src="map.js"></script>
-    </div>
+    <script src="map.js"></script>
 </body>
 
 </html>
