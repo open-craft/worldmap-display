@@ -26,9 +26,9 @@ var divTooltip = d3.select(element)
 var color = d3.scale.linear()
     .range(["#e4efd3", "#c2e699", "#78c679", "#31a354", "#006837"]);
 
-var rankColor = d3.scale.threshold()
-    .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-    .range(["#bdc3c7", "#2ecc71", "#3498db", "#9b59b6", "#e74c3c", "#e67e22", "#f1c40f", "#c0392b", "#2980b9", "#27ae60", "#f39c12", "#d35400"]);
+var rankColors = ["#2ecc71", "#3498db", "#9b59b6", "#e74c3c", "#e67e22", "#f1c40f", "#c0392b", "#2980b9", "#27ae60", "#f39c12", "#d35400"];
+var assignedRankColors = {};
+var rankColorsIndex = 0;
 
 // Create JSON object
 var json = JSON.parse(AtlasJSONData);
@@ -40,28 +40,6 @@ svg.append("text")
     .text(function(d) { return json.statistics[0].title; });
 */
 
-// Used for rank color options
-var rankObj = {};
-
-// Get unique array elements while still supporting IE8 and later
-Array.prototype.filter = function(fun, scope) {
-    var T = this;
-    var A = [];
-    var i = 0;
-    var itm;
-    var L = T.length;
-    if (typeof fun == 'function') {
-        while (i < L) {
-            if (i in T) {
-                itm = T[i];
-                if (fun.call(scope, itm, i, T)) A[A.length] = itm;
-            }
-            ++i;
-        }
-    }
-    return A;
-};
-
 // Dynamically add dropdown options from JSON object
 for (var s in json.statistics) {
     if ($.isNumeric(s)) {
@@ -69,7 +47,6 @@ for (var s in json.statistics) {
     }
 }
 
-// Logic for dropdown on selection
 
 function selection(choice) {
     choiceElement = choice; // Set global var for use in the D3.js main function
@@ -104,15 +81,13 @@ function selection(choice) {
                 var countryValue = json.statistics[choice].countries[d.properties.name]; // Get country value from JSON
                 if (countryValue !== undefined && type != "rank") {
                     return color(countryValue); // Return corresponding color depending on country value
-                }
-                if (type == "rank") {
-                    // If specific answer hasn't been found yet
-                    if (!rankObj[countryValue]) {
-                        // Set new specific color for answer
-                        rankObj[countryValue] = rankColor(Object.keys(rankObj).length - 1);
+                } else if (countryValue !== undefined && type == "rank") {
+                    // Set new specific color for answer, if not yet encountered
+                    if (!assignedRankColors[countryValue]) {
+                        assignedRankColors[countryValue] = rankColors[rankColorsIndex++];
                     }
 
-                    return rankObj[countryValue];
+                    return assignedRankColors[countryValue];
                 }
             }
 
@@ -135,7 +110,7 @@ function mousemove(d) {
         if (type == "mrq" || type == "slider") {
             overall = json.statistics[choiceElement].average;
         } else if (type == "rank") {
-            overall = json.statistics[choiceElement].preferred;
+            overall = json.statistics[choiceElement].top;
         }
 
         var detailString;
