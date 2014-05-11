@@ -23,9 +23,8 @@ var divTooltip = d3.select(element)
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-var color = d3.scale.threshold()
-    .domain([0, 1]) // TODO: Include more thresholds if needed
-    .range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837"]);
+var color = d3.scale.linear()
+    .range(["#e4efd3", "#c2e699", "#78c679", "#31a354", "#006837"]);
 
 var rankColor = d3.scale.threshold()
     .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
@@ -70,44 +69,20 @@ for (var s in json.statistics) {
     }
 }
 
-// Set color threshold min and max
-
-function setMinMaxThreshold(min, max) {
-    var thresholdArray = [];
-    thresholdArray.push(min);
-    var thresholdStep = (max - min) / 4;
-    for (var i = 0; i <= 4; i++) {
-        thresholdArray.push(thresholdArray[thresholdArray.length - 1] + thresholdStep);
-    }
-
-    color = d3.scale.threshold()
-        .domain(thresholdArray)
-        .range(["#ffffcc", "#c2e699", "#78c679", "#31a354", "#006837", "#00341b"]);
-}
-
-function updateColorThreshold(index) {
-    if (json.statistics[index].min && json.statistics[index].max) {
-        setMinMaxThreshold(json.statistics[index].min, json.statistics[index].max);
-    } else {
-        var countryValueArray = [];
-        for (var countryValue in json.statistics[index].countries) {
-            countryValueArray.push(json.statistics[index].countries[countryValue]);
-        }
-
-        setMinMaxThreshold(Math.min.apply(null, countryValueArray), Math.max.apply(null, countryValueArray));
-    }
-}
-
-// Set color threshold upon load
-updateColorThreshold(0);
-
 // Logic for dropdown on selection
 
 function selection(choice) {
     choiceElement = choice; // Set global var for use in the D3.js main function
 
-    // Update color threshold on change
-    updateColorThreshold(choice);
+    if (type != "rank") {
+        // Update color domain on change
+        var domainArray = [];
+        step = (json.statistics[choice].max - json.statistics[choice].min) / 4.0;
+        for (var i = 0; i <= 4; i++) {
+            domainArray.push(json.statistics[choice].min + step * i);
+        }
+        color = color.domain(domainArray);
+    }
 
     var type = json.statistics[choice].type; // Used to store type (slider, rank, etc.)
 
