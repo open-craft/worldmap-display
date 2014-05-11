@@ -17,12 +17,6 @@ var svg = d3.select(element)
     .attr("width", width)
     .attr("height", height);
 
-var divTooltip = d3.select(element)
-    .selectAll(".worldmap-map")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
 var color = d3.scale.linear()
     .range(["#e4efd3", "#c2e699", "#78c679", "#31a354", "#006837"]);
 
@@ -64,7 +58,7 @@ function selection(choice) {
     var type = json.statistics[choice].type; // Used to store type (slider, rank, etc.)
 
     // Update selection title
-    $('.worldmap-title', element).text(json.statistics[choice].title);
+    // $('.worldmap-title', element).text(json.statistics[choice].title);
 
     /* Code to update text displayed directly on map, if needed
     svg.selectAll("text")
@@ -97,7 +91,8 @@ function selection(choice) {
 }
 
 function mouseover() {
-    divTooltip.transition()
+    d3.select(element).selectAll(".tooltip")
+        .transition()
         .duration(500)
         .style("opacity", 0.75);
 }
@@ -122,16 +117,17 @@ function mousemove(d) {
 
         var overallString = "The average is: " + overall;
 
-        divTooltip
-        // Display detailed hover info
-            .html("<h3>" + d.properties.name + "</h3><h4 class='countryDetail'>" + detailString + "</h4><h4 class='countryAverage'>" + overallString + "</h4>")
-            .style("left", (d3.event.pageX + 20) + "px")
-            .style("top", (d3.event.pageY - 40) + "px");
+        $(".tooltip h3", element).text(d.properties.name);
+        $(".tooltip .country-detail", element).text(detailString);
+        $(".tooltip .country-average", element).text(overallString);
+        $(".tooltip", element).css("left", (d3.event.pageX + 20) + "px");
+        $(".tooltip", element).css("top", (d3.event.pageY - 40) + "px");
     }
 }
 
 function mouseout() {
-    divTooltip.transition()
+    d3.select(element).selectAll(".tooltip")
+        .transition()
         .duration(200)
         .style("opacity", 0);
 }
