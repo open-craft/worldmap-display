@@ -13,8 +13,7 @@
 .worldmap-display .tooltip {
     position: absolute;
     text-align: center;
-    width: 350px;
-    height: 80px;
+    min-width: 350px;
     padding: 2px;
     font: 12px sans-serif;
     background: black;
@@ -25,13 +24,20 @@
     pointer-events: none;
     opacity: 0;
 }
-.worldmap-display .tooltip .country-detail {
-    line-height: 0;
-    font-size: 13px;
+.worldmap-display .tooltip .country-name {
+    font-size: 20px;
 }
-.worldmap-display .tooltip .country-average {
-    line-height: 0;
-    font-size: 10px;
+.worldmap-display .tooltip .country-detail {
+    font-size: 25px;
+    line-height: 15px;
+    margin: 0 20px 23px;
+}
+
+.worldmap-display .worldmap-global {
+    margin: 0 0 0 20px;
+    font: 27px sans-serif;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .worldmap-display .worldmap-dropdown {
@@ -73,6 +79,7 @@
     appearance: none;
     color: #ffffff;
     cursor: pointer;
+    width: 500px;
 }
 
 .worldmap-display .worldmap-dropdown select:focus {

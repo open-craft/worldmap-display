@@ -42,6 +42,11 @@ for (var s in json.statistics) {
 }
 
 
+function round(num) {
+    return Math.round(num * 100) / 100;
+}
+
+
 function selection(choice) {
     choiceElement = choice; // Set global var for use in the D3.js main function
 
@@ -66,6 +71,15 @@ function selection(choice) {
         .style("text-anchor", "left")
         .text(function(d) { return json.statistics[choice].title; });
     */
+
+    var overall = "Global: ";
+    if (type == "mrq" || type == "slider") {
+        overall += round(json.statistics[choice].average);
+    } else if (type == "rank") {
+        overall += json.statistics[choice].top;
+    }
+
+    $(".worldmap-global", element).text(overall);
 
     svg.selectAll(".country")
         .data(countries)
@@ -101,25 +115,18 @@ function mousemove(d) {
     if (d.properties.name) {
         var type = json.statistics[choiceElement].type;
         var countryValue = json.statistics[choiceElement].countries[d.properties.name]; // Pull unique country value
-        var overall;
-        if (type == "mrq" || type == "slider") {
-            overall = json.statistics[choiceElement].average;
-        } else if (type == "rank") {
-            overall = json.statistics[choiceElement].top;
-        }
 
         var detailString;
         if (countryValue === undefined) {
-            detailString = "Specific country information unavailable";
+            detailString = "N/A";
+        } else if (type !== "rank") {
+            detailString = round(countryValue);
         } else {
-            detailString = d.properties.name + " is: " + countryValue;
+            detailString = countryValue;
         }
 
-        var overallString = "The average is: " + overall;
-
-        $(".tooltip h3", element).text(d.properties.name);
+        $(".tooltip .country-name", element).text(d.properties.name);
         $(".tooltip .country-detail", element).text(detailString);
-        $(".tooltip .country-average", element).text(overallString);
         $(".tooltip", element).css("left", (d3.event.pageX + 20) + "px");
         $(".tooltip", element).css("top", (d3.event.pageY - 40) + "px");
     }
