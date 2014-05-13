@@ -81,6 +81,9 @@ function selection(choice) {
                     if (!assignedRankColors[countryValue]) {
                         assignedRankColors[countryValue] = rankColors[rankColorsIndex++];
                     }
+                    if (!assignedRankColors[countryValue]) {
+                        assignedRankColors[countryValue] = "hsl("+ Math.random()*360 + ",100%,50%)";
+                    }
 
                     return assignedRankColors[countryValue];
                 }
