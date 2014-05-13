@@ -11,21 +11,28 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
+
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
 <body>
-    <p>The only current countries with JSON data are: United States, Canada, Mexico, France, and Greenland,</br>but the JSON data is loaded dynamically, so feel free to add more countries to the JSON query in map.js on Line 31 test it out.</p>
-    <br/>
-    <div class="themed-dropdown dropdown">
-        <select id="selector" name="selector" onchange="selection(this.value);"></select>
+    <div class="worldmap-display">
+        <div class="worldmap-dropdown">
+            <select class="worldmap-selector"></select>
+        </div>
+
+        <span class="worldmap-global"></span>
+
+        <div class="worldmap-map">
+            <div class="tooltip">
+                <h3 class="country-name"></h3>
+                <h4 class="country-detail"></h4>
+            </div>
+        </div>
     </div>
 
-    <h2 id="title"></h2>
-
-    <div id="atlas-map">
-        <script src="map.js"></script>
-    </div>
+    <script src="data.js"></script>
+    <script src="map.js"></script>
 </body>
 
 </html>
