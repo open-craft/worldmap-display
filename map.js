@@ -30,16 +30,15 @@ var rankColorsIndex = 0;
 
 // Responsive worldmap
 var ratio = 1000/485;
-var worldmap = $("#world-map");
-var width = worldmap.parent().width();
-worldmap.attr("width", width);
-worldmap.attr("height", width / ratio);
-
-$(window).on("resize", function() {
+var worldmap = $("#world-map", element);
+function on_resize() {
     var width = worldmap.parent().width();
     worldmap.attr("width", width);
     worldmap.attr("height", width/ratio);
-});
+    $(".tooltip", element).css('max-width', width/2 + "px");
+}
+$(window).on("resize", on_resize);
+on_resize();
 
 // Create JSON object
 var json = JSON.parse(AtlasJSONData);
@@ -137,8 +136,8 @@ function mousemove(d) {
         $(".tooltip", element).css("left", (d3.event.pageX + 20) + "px");
         $(".tooltip", element).css("top", (d3.event.pageY - 40) + "px");
 
-        // Compensate for tooltip overflowing view window. Round to convert to int
-        var tooltipWidth = round($(".tooltip").css("min-width").replace(/px/, ''));
+        // Compensate for tooltip overflowing view window.
+        var tooltipWidth = $(".tooltip", element).width();
         if ((d3.event.pageX + tooltipWidth + 20) > worldmap.parent().width()) {
             $(".tooltip", element).css("left", (d3.event.pageX - tooltipWidth - 20) + "px");
         }
