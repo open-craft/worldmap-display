@@ -13,7 +13,7 @@
 .worldmap-display .tooltip {
     position: absolute;
     text-align: center;
-    min-width: 350px;
+    width: 350px;
     padding: 2px;
     font: 12px sans-serif;
     background: black;
@@ -34,10 +34,22 @@
 }
 
 .worldmap-display .worldmap-global {
-    margin: 0 0 0 20px;
     font: 27px sans-serif;
     display: inline-block;
     vertical-align: middle;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    padding-left: 10px;
+}
+
+@media (max-width: 800px) {
+  .worldmap-display .worldmap-global {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    font-size: 25px;
+    padding-left: 0;
+  }
 }
 
 .worldmap-display .worldmap-dropdown {
@@ -62,9 +74,14 @@
     color: #FFFFFF;
     position: relative;
     display: inline-block;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 15px 30px 15px 0;
 }
 
 .worldmap-display .worldmap-dropdown select {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     background: transparent;
     padding: 5px;
     font-size: 16px;

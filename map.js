@@ -15,7 +15,10 @@ var svg = d3.select(element)
     .selectAll(".worldmap-map")
     .append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("id", "world-map")
+    .attr("viewBox", "0 0 1000 485")
+    .attr("preserveAspectRatio", "xMidYMid");
 
 var color = d3.scale.linear()
     .range(["#e4efd3", "#c2e699", "#78c679", "#31a354", "#006837"]);
@@ -24,6 +27,18 @@ var rankColors = ["#2ecc71", "#3498db", "#9b59b6", "#e74c3c", "#e67e22", "#f1c40
                   "#c0392b", "#2980b9", "#27ae60", "#f39c12", "#d35400"];
 var assignedRankColors = {};
 var rankColorsIndex = 0;
+
+// Responsive worldmap
+var ratio = 1000/485;
+var worldmap = $("#world-map", element);
+function on_resize() {
+    var width = worldmap.parent().width();
+    worldmap.attr("width", width);
+    worldmap.attr("height", width/ratio);
+    $(".tooltip", element).css('max-width', width/2 + "px");
+}
+$(window).on("resize", on_resize);
+on_resize();
 
 // Create JSON object
 var json = JSON.parse(AtlasJSONData);
@@ -120,6 +135,12 @@ function mousemove(d) {
         $(".tooltip .country-detail", element).text(detailString);
         $(".tooltip", element).css("left", (d3.event.pageX + 20) + "px");
         $(".tooltip", element).css("top", (d3.event.pageY - 40) + "px");
+
+        // Compensate for tooltip overflowing view window.
+        var tooltipWidth = $(".tooltip", element).width();
+        if ((d3.event.pageX + tooltipWidth + 20) > worldmap.parent().width()) {
+            $(".tooltip", element).css("left", (d3.event.pageX - tooltipWidth - 20) + "px");
+        }
     }
 }
 
