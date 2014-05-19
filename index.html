@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WorldMap - Display statistics on a map</title>
+
+    <link href="stylesheet.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="worldmap-display">
+        <div class="worldmap-dropdown">
+            <select class="worldmap-selector"></select>
+        </div>
+
+        <span class="worldmap-global"></span>
+
+        <div class="worldmap-map">
+            <div class="tooltip">
+                <h3 class="country-name"></h3>
+                <h4 class="country-detail"></h4>
+            </div>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.6/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3-geo-projection/0.2.9/d3.geo.projection.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="map.js"></script>
+</body>
+
+</html>

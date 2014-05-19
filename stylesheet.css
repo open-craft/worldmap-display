@@ -1,0 +1,116 @@
+.worldmap-display .country {
+    fill: #bdc3c7;
+    /* #ccc */
+    stroke: #fff;
+    stroke-width: .5px;
+}
+.worldmap-display .graticule {
+    fill: none;
+    stroke-opacity: .3;
+    stroke-width: .5px;
+}
+
+.worldmap-display .tooltip {
+    position: absolute;
+    text-align: center;
+    width: 350px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: black;
+    /* lightsteelblue */
+    color: white;
+    border: 0;
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0;
+}
+.worldmap-display .tooltip .country-name {
+    font-size: 20px;
+}
+.worldmap-display .tooltip .country-detail {
+    font-size: 25px;
+    line-height: 15px;
+    margin: 0 20px 23px;
+}
+
+.worldmap-display .worldmap-global {
+    font: 27px sans-serif;
+    display: inline-block;
+    vertical-align: middle;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    padding-left: 10px;
+}
+
+@media (max-width: 800px) {
+  .worldmap-display .worldmap-global {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    font-size: 25px;
+    padding-left: 0;
+  }
+}
+
+.worldmap-display .worldmap-dropdown {
+    border: medium none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.4;
+    padding: 10px 15px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    background-color: #428BCA;
+    border-color: #357EBD;
+    color: #FFFFFF;
+    position: relative;
+    display: inline-block;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 5px 30px 15px 0;
+}
+
+.worldmap-display .worldmap-dropdown select {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background: transparent;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    color: #ffffff;
+    cursor: pointer;
+    width: 500px;
+}
+
+.worldmap-display .worldmap-dropdown select:focus {
+    outline: none;
+}
+
+.worldmap-display .worldmap-dropdown:after {
+    content:"▼";
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 4px;
+    background: #428BCA;
+    color: white;
+    pointer-events: none;
+    cursor: pointer;
+}
