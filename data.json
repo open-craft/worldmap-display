@@ -1,4 +1,4 @@
-var AtlasJSONData = JSON.stringify({
+{
     "statistics": [
         {
             "countries": {
@@ -61,4 +61,4 @@ var AtlasJSONData = JSON.stringify({
         }
     ],
     "survey_qualtrics_id": "SV_0pQ0bjc02t8PNDT"
-});
+}
