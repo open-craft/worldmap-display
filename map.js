@@ -51,6 +51,9 @@ for (var s in json.statistics) {
     }
 }
 
+// Theme dropdown via Chosen plugin
+$(".worldmap-selector").chosen();
+
 
 function round(num) {
     return Math.round(num * 100) / 100;
