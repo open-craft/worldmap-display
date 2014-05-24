@@ -48,6 +48,7 @@ function on_resize() {
     worldmap.attr("width", width);
     worldmap.attr("height", width/ratio);
     $(".tooltip", element).css('max-width', width/2 + "px");
+    $('.worldmap-selector').trigger('update');
 }
 $(window).on("resize", on_resize);
 on_resize();
@@ -169,17 +170,18 @@ function d3_main(error, world) {
     selection(choiceElement);
 }
 
+$('.worldmap-selector').customSelect({customClass:'worldmap-selector-custom'});
+
 $.getJSON(urlParams["json"], function(data) {
     json = data;
     // Dynamically add dropdown options from JSON object
     for (var s in json.statistics) {
         if ($.isNumeric(s)) {
-            $(".worldmap-selector", element)
+            $("select.worldmap-selector", element)
                 .append('<option value="' + s + '">' + json.statistics[s].title + '</option>');
         }
     }
-    // Theme dropdown via Chosen plugin
-    $(".worldmap-selector").chosen();
+    $('.worldmap-selector').trigger('update');
     d3.json("world.json", d3_main);
 });
 

@@ -7,17 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WorldMap - Display statistics on a map</title>
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css" rel="stylesheet">
     <link href="stylesheet.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="worldmap-display">
-        <div class="worldmap-dropdown">
-            <select class="worldmap-selector"></select>
-        </div>
-
-        <span class="worldmap-global"></span>
+        <select class="worldmap-selector worldmap-box"></select>
+        <span class="worldmap-global worldmap-box"></span>
 
         <div class="worldmap-map">
             <div class="tooltip">
@@ -32,7 +28,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-customSelect/0.4.1/jquery.customSelect.min.js"></script>
 
     <script src="map.js"></script>
 </body>
