@@ -6,23 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WorldMap - Display statistics on a map</title>
+
     <link href="stylesheet.css" rel="stylesheet">
-    <link href="chosen.min.css" rel="stylesheet">
-
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
 <body>
     <div class="worldmap-display">
-        <div class="worldmap-dropdown">
-            <select class="worldmap-selector"></select>
-        </div>
-
-        <span class="worldmap-global"></span>
+        <select class="worldmap-selector worldmap-box"></select>
+        <span class="worldmap-global worldmap-box"></span>
 
         <div class="worldmap-map">
             <div class="tooltip">
@@ -32,8 +23,13 @@
         </div>
     </div>
 
-    <script src="chosen.jquery.min.js"></script>
-    <script src="data.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.6/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3-geo-projection/0.2.9/d3.geo.projection.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-customSelect/0.4.1/jquery.customSelect.min.js"></script>
+
     <script src="map.js"></script>
 </body>
 

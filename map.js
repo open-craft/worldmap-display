@@ -1,5 +1,17 @@
 (function(element) {
 
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+    urlParams = {};
+    while (match = search.exec(query))
+        urlParams[decode(match[1])] = decode(match[2]);
+})();
+
 var width = 1000,
     height = 485;
 
@@ -36,29 +48,16 @@ function on_resize() {
     worldmap.attr("width", width);
     worldmap.attr("height", width/ratio);
     $(".tooltip", element).css('max-width', width/2 + "px");
+    $('.worldmap-selector').trigger('update');
 }
 $(window).on("resize", on_resize);
 on_resize();
 
-// Create JSON object
-var json = JSON.parse(AtlasJSONData);
-
-// Dynamically add dropdown options from JSON object
-for (var s in json.statistics) {
-    if ($.isNumeric(s)) {
-        $(".worldmap-selector", element)
-            .append('<option value="' + s + '">' + json.statistics[s].title + '</option>');
-    }
-}
-
-// Theme dropdown via Chosen plugin
-$(".worldmap-selector").chosen();
-
+var json;
 
 function round(num) {
     return Math.round(num * 100) / 100;
 }
-
 
 function selection(choice) {
     choiceElement = choice; // Set global var for use in the D3.js main function
@@ -155,7 +154,7 @@ function mouseout() {
 }
 
 // Main D3.js function
-d3.json("world.json", function(error, world) {
+function d3_main(error, world) {
     // Load TopoJSON object
     countries = topojson.feature(world, world.objects.countries).features;
 
@@ -169,6 +168,21 @@ d3.json("world.json", function(error, world) {
         .on("mouseout", mouseout);
 
     selection(choiceElement);
+}
+
+$('.worldmap-selector').customSelect({customClass:'worldmap-selector-custom'});
+
+$.getJSON(urlParams["json"], function(data) {
+    json = data;
+    // Dynamically add dropdown options from JSON object
+    for (var s in json.statistics) {
+        if ($.isNumeric(s)) {
+            $("select.worldmap-selector", element)
+                .append('<option value="' + s + '">' + json.statistics[s].title + '</option>');
+        }
+    }
+    $('.worldmap-selector').trigger('update');
+    d3.json("world.json", d3_main);
 });
 
 $('.worldmap-selector', element).change(function() {

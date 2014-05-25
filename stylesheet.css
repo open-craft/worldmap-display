@@ -33,21 +33,25 @@
     margin: 0 20px 23px;
 }
 
-.worldmap-display .worldmap-global {
-    font: 27px sans-serif;
-    display: inline-block;
-    vertical-align: middle;
+.worldmap-display .worldmap-box {
+    font-size: 15px;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    padding-left: 10px;
+    color: white;
+    padding: 14px 18px;
+    border-radius: 10px;
+    display: inline-block;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-@media (max-width: 800px) {
-  .worldmap-display .worldmap-global {
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    font-size: 25px;
-    padding-left: 0;
-  }
+.worldmap-display .worldmap-global {
+    background-color: rgb(120, 198, 121);
+    white-space: nowrap;
+}
+
+.worldmap-display .worldmap-selector {
+    margin-bottom: 5px;
+    background: url(arrow.png) no-repeat right 20px center;
+    background-color: #428BCA;
 }
