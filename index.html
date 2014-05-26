@@ -12,14 +12,25 @@
 
 <body>
     <div class="worldmap-display">
-        <select class="worldmap-selector worldmap-box"></select>
-        <span class="worldmap-global worldmap-box"></span>
+        <div class="worldmap-map-view">
+            <select class="worldmap-selector worldmap-box"></select>
+            <span class="worldmap-global worldmap-box"></span>
 
-        <div class="worldmap-map">
-            <div class="tooltip">
-                <h3 class="country-name"></h3>
-                <h4 class="country-detail"></h4>
+            <div class="worldmap-map">
+                <div class="tooltip">
+                    <h3 class="country-name"></h3>
+                    <h4 class="country-detail"></h4>
+                </div>
             </div>
+        </div>
+
+        <div class="worldmap-country-view">
+            <span class="back worldmap-box">Back</span>
+            <span class="country-title worldmap-box"></span>
+
+            <div class="custom-html"></div>
+
+            <table class="country-stats"></table>
         </div>
     </div>
 
