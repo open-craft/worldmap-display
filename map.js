@@ -108,6 +108,10 @@ function selection(choice) {
 
             // Default to gray
             return "#bdc3c7";
+        }).style("cursor", function(d) {
+            if (d.properties.name)
+                return "pointer";
+            return "auto";
         });
 }
 
@@ -153,6 +157,56 @@ function mouseout() {
         .style("opacity", 0);
 }
 
+function countryclick(d) {
+    if (d.properties.name) {
+        $(".worldmap-map-view", element).hide(300, function() {
+            $(".country-title", element).text(d.properties.name);
+
+            if (json.country_messages[d.properties.name]) {
+                $(".custom-html").html(json.country_messages[d.properties.name]);
+            }
+
+            $(".country-stats", element).empty();
+            for (var i = 0; i < json.statistics.length; i++) {
+                if (d.properties.name in json.statistics[i].countries) {
+                    var name, value, type, overall;
+                    name = json.statistics[i].title;
+                    value = json.statistics[i].countries[d.properties.name];
+                    type = json.statistics[i].type;
+                    if (type == "mrq" || type == "slider") {
+                        overall = round(json.statistics[i].average);
+                    } else if (type == "rank") {
+                        overall = json.statistics[i].top;
+                    }
+
+                    $(".country-stats", element).append($('<tr>')
+                        .append($('<td>', {
+                            text: name,
+                            "class": "stat-name"
+                        }))
+                        .append($('<td>', {
+                            text: value,
+                            "class": "stat-value"
+                        }))
+                        .append($('<td>', {
+                            text: '[Global: ' + overall + ']',
+                            "class": "stat-global"
+                        }))
+                    );
+                }
+            }
+
+            $(".worldmap-country-view", element).show(300);
+        });
+    }
+}
+
+$(".worldmap-country-view .back", element).click(function() {
+    $(".worldmap-country-view", element).hide(300, function() {
+        $(".worldmap-map-view", element).show(300);
+    });
+});
+
 // Main D3.js function
 function d3_main(error, world) {
     // Load TopoJSON object
@@ -165,7 +219,8 @@ function d3_main(error, world) {
         .attr("d", path)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseout", mouseout);
+        .on("mouseout", mouseout)
+        .on("click", countryclick);
 
     selection(choiceElement);
 }
@@ -177,8 +232,10 @@ $.getJSON(urlParams["json"], function(data) {
     // Dynamically add dropdown options from JSON object
     for (var s in json.statistics) {
         if ($.isNumeric(s)) {
-            $("select.worldmap-selector", element)
-                .append('<option value="' + s + '">' + json.statistics[s].title + '</option>');
+            $('<option>', {
+                text: json.statistics[s].title,
+                value: s,
+            }).appendTo("select.worldmap-selector", element);
         }
     }
     $('.worldmap-selector').trigger('update');

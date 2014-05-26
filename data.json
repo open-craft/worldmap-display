@@ -60,5 +60,10 @@
             "top": "A"
         }
     ],
+    "country_messages": {
+        "Côte d'Ivoire": "<div>\n    Some arbitrary text ✓\n  </div>\n  ",
+        "Italy": "<div>\n    or <code>HTML</code>\n  </div>\n",
+        "United States": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    },
     "survey_qualtrics_id": "SV_0pQ0bjc02t8PNDT"
 }

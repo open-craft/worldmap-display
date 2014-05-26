@@ -35,7 +35,7 @@
 
 .worldmap-display .worldmap-box {
     font-size: 15px;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: "Lucida Grande", sans-serif;
     color: white;
     padding: 14px 18px;
     border-radius: 10px;
@@ -54,4 +54,53 @@
     margin-bottom: 5px;
     background: url(arrow.png) no-repeat right 20px center;
     background-color: #428BCA;
+}
+
+.worldmap-country-view {
+    display: none;
+}
+
+.worldmap-country-view .back {
+    cursor: pointer;
+    background-color: #428BCA;
+    width: auto;
+    float: left;
+    display: block;
+    margin-right: 10px;
+}
+
+.worldmap-country-view .country-title {
+    background-color: rgb(120, 198, 121);
+    white-space: nowrap;
+    overflow: hidden;
+    width: auto;
+    max-width: 400px;
+    display: block;
+}
+
+.country-stats {
+    margin: 0 10px 10px 10px;
+    min-width: 480px;
+    border-collapse: collapse;
+}
+
+.country-stats td {
+    padding: 10px;
+    font-size: 15px;
+    font-family: "Lucida Grande", sans-serif;
+}
+
+td.stat-name {
+    font-weight: bold;
+    padding-left: 0;
+}
+td.stat-global {
+    font-size: 13px;
+    color: grey;
+}
+
+.custom-html {
+    padding: 10px;
+    font-size: 15px;
+    font-family: "Lucida Grande", sans-serif;
 }
