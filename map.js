@@ -159,7 +159,7 @@ function mouseout() {
 
 function countryclick(d) {
     if (d.properties.name) {
-        $(".worldmap-map-view", element).hide(300, function() {
+        $(".worldmap-map-view", element).hide(0, function() {
             $(".country-title", element).text(d.properties.name);
 
             $(".custom-html").empty();
@@ -197,14 +197,14 @@ function countryclick(d) {
                 }
             }
 
-            $(".worldmap-country-view", element).show(300);
+            $(".worldmap-country-view", element).show();
         });
     }
 }
 
 $(".worldmap-country-view .back", element).click(function() {
-    $(".worldmap-country-view", element).hide(300, function() {
-        $(".worldmap-map-view", element).show(300);
+    $(".worldmap-country-view", element).hide(0, function() {
+        $(".worldmap-map-view", element).show();
     });
 });
 
