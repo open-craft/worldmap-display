@@ -162,6 +162,7 @@ function countryclick(d) {
         $(".worldmap-map-view", element).hide(300, function() {
             $(".country-title", element).text(d.properties.name);
 
+            $(".custom-html").empty();
             if (json.country_messages[d.properties.name]) {
                 $(".custom-html").html(json.country_messages[d.properties.name]);
             }
