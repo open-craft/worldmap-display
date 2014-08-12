@@ -1,0 +1,9 @@
+logs_location: "./logs/"
+start: "2014-06-08T20:00:00+02:00"
+resources:
+    - name: "Demo survey results"
+      embedded: "x-atlas-analytics=NAME-edx-map"
+      direct: "MAPDATAFILENAME.json"
+    - name: "Demo survey"
+      embedded: "x-atlas-analytics=NAME-edx-survey"
+      direct: "x-atlas-analytics=NAME-qualtrics-survey"
