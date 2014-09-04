@@ -226,7 +226,7 @@ function d3_main(error, world) {
     selection(choiceElement);
 }
 
-$('.worldmap-selector').selectmenu({customClass:'worldmap-selector-custom'});
+$('.worldmap-selector').selectmenu();
 
 $.getJSON(urlParams["json"], function(data) {
     json = data;
