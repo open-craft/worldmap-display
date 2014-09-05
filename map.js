@@ -48,7 +48,6 @@ function on_resize() {
     worldmap.attr("width", width);
     worldmap.attr("height", width/ratio);
     $(".tooltip", element).css('max-width', width/2 + "px");
-    $('.worldmap-selector').trigger('update');
 }
 $(window).on("resize", on_resize);
 on_resize();
@@ -226,8 +225,6 @@ function d3_main(error, world) {
     selection(choiceElement);
 }
 
-$('.worldmap-selector').selectmenu();
-
 $.getJSON(urlParams["json"], function(data) {
     json = data;
     // Dynamically add dropdown options from JSON object
@@ -239,7 +236,7 @@ $.getJSON(urlParams["json"], function(data) {
             }).appendTo("select.worldmap-selector", element);
         }
     }
-    $('.worldmap-selector').trigger('update');
+    $('.worldmap-selector').selectmenu();
     d3.json("world.json", d3_main);
 });
 
