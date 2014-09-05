@@ -43,17 +43,32 @@
     max-width: 500px;
     width: 100%;
     box-sizing: border-box;
+    margin: 5px;
+    padding: 0.4em 1em;
+    line-height: 1.4;
+    display: block;
+    float: left;
 }
 
 .worldmap-display .worldmap-global {
     background-color: rgb(120, 198, 121);
+    border: 1px solid rgb(120, 198, 121);
     white-space: nowrap;
 }
 
-.worldmap-display .worldmap-selector {
-    margin-bottom: 5px;
-    background: url(arrow.png) no-repeat right 20px center;
-    background-color: #428BCA;
+.ui-selectmenu-menu {
+    width: 498px;
+}
+
+.ui-selectmenu-button {
+    margin: 5px;
+    width: 498px;
+    display: block;
+    float: left;
+}
+
+.ui-selectmenu-button span.ui-selectmenu-text {
+    white-space: normal;
 }
 
 .worldmap-country-view {
@@ -82,6 +97,7 @@
     margin: 0 10px 10px 10px;
     min-width: 480px;
     border-collapse: collapse;
+    clear: both;
 }
 
 .country-stats td {
