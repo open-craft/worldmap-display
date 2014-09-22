@@ -21,7 +21,7 @@
                 "Peru": 2.5,
                 "Canada": 4.0
             },
-            "title": "Text formatted with HTML<br />(over two lines)",
+            "title": "Text formatted with <strong>HTML</strong> <br />spanning over two lines",
             "type": "mrq",
             "average": 1.6666666666666665,
             "max": 4,
