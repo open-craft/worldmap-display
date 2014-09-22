@@ -181,7 +181,7 @@ function countryclick(d) {
 
                     $(".country-stats", element).append($('<tr>')
                         .append($('<td>', {
-                            text: name,
+                            html: name,
                             "class": "stat-name"
                         }))
                         .append($('<td>', {
@@ -225,6 +225,17 @@ function d3_main(error, world) {
     selection(choiceElement);
 }
 
+// Allow HTML content in selectmenu widget
+$.widget( "custom.htmlselectmenu", $.ui.selectmenu, {
+    _setText: function(element, value) {
+        if (value) {
+            element.html(value);
+        } else {
+            element.html("&#160;");
+        }
+    }
+});
+
 $.getJSON(urlParams["json"], function(data) {
     json = data;
     // Dynamically add dropdown options from JSON object
@@ -236,11 +247,11 @@ $.getJSON(urlParams["json"], function(data) {
             }).appendTo("select.worldmap-selector", element);
         }
     }
-    $('.worldmap-selector').selectmenu();
+    $('.worldmap-selector').htmlselectmenu();
     d3.json("world.json", d3_main);
 });
 
-$('.worldmap-selector', element).on("selectmenuchange", function() {
+$('.worldmap-selector', element).on("htmlselectmenuchange", function() {
     selection(this.value);
 });
 
