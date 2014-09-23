@@ -18,6 +18,17 @@
         },
         {
             "countries": {
+                "Peru": 2.5,
+                "Canada": 4.0
+            },
+            "title": "Text formatted with <strong>HTML</strong> <br />spanning over two lines",
+            "type": "mrq",
+            "average": 1.6666666666666665,
+            "max": 4,
+            "min": 0
+        },
+        {
+            "countries": {
                 "Mexico": 3.0,
                 "Brazil": 2.0,
                 "Argentina": 0.5,
