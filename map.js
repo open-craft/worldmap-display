@@ -52,6 +52,11 @@ function on_resize() {
 $(window).on("resize", on_resize);
 on_resize();
 
+// toggle table
+$('.worldmap-table-view-button').click(function() {
+    $('.worldmap-table-view').toggleClass('closed');
+});
+
 var json;
 
 function round(num) {
@@ -111,6 +116,62 @@ function selection(choice) {
             if (d.properties.name)
                 return "pointer";
             return "auto";
+        });
+
+        /* Accessible table code added by Luis Duarte @HarvardX*/
+
+        // clear the table each time the user changes the question type
+        var table_view = d3.select(element)
+            .selectAll(".worldmap-table-view");  
+        table_view.selectAll("table").remove();
+
+        // start a new table
+        var table = table_view
+            .append("table")
+            .attr("class", "worldmap-table tablesorter")
+            .attr("role", "table")
+            .attr("aria-label", json.statistics[choice].title);
+        var thead = table.append("thead");
+        var tbody = table.append("tbody");
+
+        // adds a title 
+        var header_row = thead.append("tr");
+        header_row.append("th")
+            .attr("tabindex", 0)
+            .attr("scope", "col")
+            .text("Country");
+
+        header_row.append("th")
+            .attr("tabindex", 0)
+            .attr("scope", "col")
+            .html(json.statistics[choice].title);
+
+        // create a new set of rows given the data the user has selected
+        var row = tbody.selectAll("tr").data(Object.keys(json.statistics[choice].countries))
+            .enter()
+            .append("tr")
+            .attr("scope", "row");
+
+        row.append("td")
+            .attr("tabindex", 0)
+            .text(function(d) { return d; });
+
+        row.append("td")
+            .attr("tabindex", 0)
+            .attr("aria-label", function(d){
+                return json.statistics[choice].title + " value: " + json.statistics[choice].countries[d];
+            })
+            .text(function(d) { return json.statistics[choice].countries[d]; });
+
+        // turns on jquery plugin that allows table to be sorted by clicking on the header
+        $(".worldmap-table").tablesorter();
+
+        // adds keyboard accessibility so that on hitting SPACE or ENTER over a header, it sorts as well
+        $(".worldmap-table thead tr").on("keypress", function(event) {
+            var key = event.keyCode ? event.keyCode : event.which;
+            if (key === 13 || key === 32) {
+                jQuery(event.target).trigger("click");
+            }
         });
 }
 
