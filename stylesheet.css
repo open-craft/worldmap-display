@@ -1,9 +1,14 @@
+.worldmap-display {
+    font-family:  "Lucida Grande", Arial, sans-serif;
+}
+
 .worldmap-display .country {
     fill: #bdc3c7;
     /* #ccc */
     stroke: #fff;
     stroke-width: .5px;
 }
+
 .worldmap-display .graticule {
     fill: none;
     stroke-opacity: .3;
@@ -35,7 +40,6 @@
 
 .worldmap-display .worldmap-box {
     font-size: 15px;
-    font-family: "Lucida Grande", sans-serif;
     color: white;
     padding: 14px 18px;
     border-radius: 10px;
@@ -103,7 +107,6 @@
 .country-stats td {
     padding: 10px;
     font-size: 15px;
-    font-family: "Lucida Grande", sans-serif;
 }
 
 td.stat-name {
@@ -118,5 +121,61 @@ td.stat-global {
 .custom-html {
     padding: 10px;
     font-size: 15px;
-    font-family: "Lucida Grande", sans-serif;
+}
+
+.worldmap-table-view-button {
+    background-color: rgba(66, 139, 202, 0.8);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid rgba(66, 139, 202, 0.8);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.worldmap-table-view-button:hover {
+    background-color: rgba(66, 139, 202, 1);
+}
+
+.worldmap-table{
+    margin-top: 20px;
+    text-align: center;
+    margin-left: 10px;
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+    width: 500px;
+}
+
+.worldmap-table-view.closed {
+    margin-top: -999999px;
+    margin-bottom: -999999px;
+}
+
+.worldmap-table thead tr {
+    cursor: pointer;
+    font-size: 15px;
+    background-color: rgba(0, 104, 55, 0.8);
+    color: white;
+}
+
+.worldmap-table thead tr th {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.worldmap-table tbody tr:nth-child(odd) {
+    background-color: rgba(135, 89, 182, 0.4);
+}
+
+.worldmap-table tbody tr:nth-child(even) {
+    background-color: rgba(120, 189, 121, 0.3);
+}
+
+.worldmap-table tbody tr td {
+    padding: 10px;
+    font-size: 12px;
 }
